@@ -39,7 +39,7 @@ def test_list_files_in_directory(mock_os_functions):
     # Instantiate your service
     service = FileSystemService()
 
-    # Call the method under test
+    # Call the method under tests
     result = service.list(mock_path)
 
     # Verify the result

@@ -8,12 +8,12 @@ from app.service.filesystem.FileSystemService import FileSystemService
 
 @inject
 class FilterService:
-    def __init__(self, filesystemService: FileSystemService) -> None:
-        self.filesystemService = filesystemService
+    def __init__(self, filesystem_service: FileSystemService) -> None:
+        self.filesystem_service = filesystem_service
 
     def filter(self, filter: Filter, path: str) -> List[str]:
-        response : List[str] = []
-        for file in self.filesystemService.list(path):
+        response: List[str] = []
+        for file in self.filesystem_service.list(path):
             if filter.apply(file):
                 response.append(file.filename)
         return response

@@ -2,8 +2,12 @@ import pytest
 from unittest.mock import Mock, create_autospec
 
 from app.service.filesystem.FileSystemService import FileSystemService, FileSystemItem
-from app.endpoints.filter.Filter import Filter, HigherSizeFilter, AndOperationFilter, MatchExtensionFilter, \
-    OrOperationFilter, LowerSizeFilter
+from app.endpoints.filter.Filter import Filter
+from app.endpoints.filter.HigherSizeFilter import HigherSizeFilter
+from app.endpoints.filter.LowerSizeFilter import LowerSizeFilter
+from app.endpoints.filter.MatchExtensionFilter import MatchExtensionFilter
+from app.endpoints.filter.AndOperationFilter import AndOperationFilter
+from app.endpoints.filter.OrOperationFilter import OrOperationFilter
 from app.service.filter.FilterService import FilterService
 
 
@@ -35,7 +39,7 @@ def test_filter_service_can_filter(mock_file_system_service, mock_filter):
     mock_filter.apply.side_effect = mock_apply
 
     # Instantiate the FilterService with the mocked FileSystemService
-    filter_service = FilterService(filesystemService=mock_file_system_service)
+    filter_service = FilterService(filesystem_service=mock_file_system_service)
 
     # Call the filter method
     path = "/mock/path"
@@ -51,7 +55,6 @@ def test_filter_service_can_filter(mock_file_system_service, mock_filter):
     assert mock_filter.apply.call_count == len(mock_files), "Filter.apply was not called the expected number of times"
 
 
-
 def test_filter_service_with_real_filter(mock_file_system_service, mock_filter):
     # Setup mock behavior for FileSystemService
     mock_files = [
@@ -65,7 +68,7 @@ def test_filter_service_with_real_filter(mock_file_system_service, mock_filter):
     filter = AndOperationFilter(operands=[HigherSizeFilter(199), MatchExtensionFilter("png")])
 
     # Instantiate the FilterService with the mocked FileSystemService
-    filter_service = FilterService(filesystemService=mock_file_system_service)
+    filter_service = FilterService(filesystem_service=mock_file_system_service)
 
     # Call the filter method
     path = "/mock/path"
@@ -90,10 +93,12 @@ def test_filter_service_with_complex_filter(mock_file_system_service, mock_filte
     mock_file_system_service.list.return_value = mock_files
 
     # Setup a real filter
-    filter = OrOperationFilter( operands=[AndOperationFilter(operands=[HigherSizeFilter(199), MatchExtensionFilter("png")]), LowerSizeFilter(101)])
+    filter = OrOperationFilter(
+        operands=[AndOperationFilter(operands=[HigherSizeFilter(199), MatchExtensionFilter("png")]),
+                  LowerSizeFilter(101)])
 
     # Instantiate the FilterService with the mocked FileSystemService
-    filter_service = FilterService(filesystemService=mock_file_system_service)
+    filter_service = FilterService(filesystem_service=mock_file_system_service)
 
     # Call the filter method
     path = "/mock/path"
@@ -106,4 +111,3 @@ def test_filter_service_with_complex_filter(mock_file_system_service, mock_filte
 
     # Verify interactions with the mock objects
     mock_file_system_service.list.assert_called_once_with(path)
-

@@ -1,15 +1,17 @@
-from typing import List, Type, Callable
-from fastapi import Depends, FastAPI, HTTPException, Request
-
+from typing import List
+from fastapi import Depends
 from fastapi import FastAPI
-from fastapi.params import Body
+
 from injector import inject
-from pydantic import BaseModel
 
 from app.Config import Config
 from app.endpoints.Endpoint import Endpoint
-from app.endpoints.filter.Filter import Filter, OrOperationFilter, AndOperationFilter, HigherSizeFilter, \
-    LowerSizeFilter, MatchExtensionFilter
+
+from app.endpoints.filter.HigherSizeFilter import HigherSizeFilter
+from app.endpoints.filter.LowerSizeFilter import LowerSizeFilter
+from app.endpoints.filter.MatchExtensionFilter import MatchExtensionFilter
+from app.endpoints.filter.AndOperationFilter import AndOperationFilter
+from app.endpoints.filter.OrOperationFilter import OrOperationFilter
 from app.endpoints.filter.FilterParser import FilterParser
 from app.service.filter.FilterService import FilterService
 
