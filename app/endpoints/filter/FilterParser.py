@@ -2,8 +2,8 @@ from typing import Dict, Any
 
 from fastapi import HTTPException, Request
 
-from app.endpoints.filter.Filter import Filter, CompositeFilter
-from app.endpoints.filter.FilterFactory import COMPOSITE_FILTER_TYPE_TO_CLASS, FILTER_TYPE_TO_CLASS
+from app.model.filter.Filter import Filter, CompositeFilter
+from app.model.filter.FilterFactory import COMPOSITE_FILTER_TYPE_TO_CLASS, FILTER_TYPE_TO_CLASS
 
 
 def parse_filter(filter_dict: Dict[str, Any]) -> Filter:

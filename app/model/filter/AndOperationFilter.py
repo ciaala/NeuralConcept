@@ -1,8 +1,7 @@
 from dataclasses import dataclass
-from typing import List
 
-from app.endpoints.filter.Filter import Filter, CompositeFilter
-from app.endpoints.filter.FilterFactory import register_composite_filter
+from app.model.filter.Filter import CompositeFilter
+from app.model.filter.FilterFactory import register_composite_filter
 from app.service.filesystem.FileSystemService import FileSystemItem
 
 

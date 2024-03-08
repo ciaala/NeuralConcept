@@ -2,12 +2,12 @@ import pytest
 from unittest.mock import Mock, create_autospec
 
 from app.service.filesystem.FileSystemService import FileSystemService, FileSystemItem
-from app.endpoints.filter.Filter import Filter
-from app.endpoints.filter.HigherSizeFilter import HigherSizeFilter
-from app.endpoints.filter.LowerSizeFilter import LowerSizeFilter
-from app.endpoints.filter.MatchExtensionFilter import MatchExtensionFilter
-from app.endpoints.filter.AndOperationFilter import AndOperationFilter
-from app.endpoints.filter.OrOperationFilter import OrOperationFilter
+from app.model.filter.Filter import Filter
+from app.model.filter.HigherSizeFilter import HigherSizeFilter
+from app.model.filter.LowerSizeFilter import LowerSizeFilter
+from app.model.filter.MatchExtensionFilter import MatchExtensionFilter
+from app.model.filter.AndOperationFilter import AndOperationFilter
+from app.model.filter.OrOperationFilter import OrOperationFilter
 from app.service.filter.FilterService import FilterService
 
 

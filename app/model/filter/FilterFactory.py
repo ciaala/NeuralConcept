@@ -1,8 +1,8 @@
 from typing import Type, Dict
 from __future__ import annotations
 
-from app.endpoints.filter.Filter import Filter
-from app.endpoints.filter.Filter import CompositeFilter
+from app.model.filter.Filter import Filter
+from app.model.filter.Filter import CompositeFilter
 
 FILTER_TYPE_TO_CLASS: Dict[str, Type[Filter]] = {}
 COMPOSITE_FILTER_TYPE_TO_CLASS: Dict[str, Type[CompositeFilter]] = {}

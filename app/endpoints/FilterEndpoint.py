@@ -6,12 +6,12 @@ from injector import inject
 
 from app.Config import Config
 from app.endpoints.Endpoint import Endpoint
-from app.endpoints.filter.AndOperationFilter import AndOperationFilter
+from app.model.filter.AndOperationFilter import AndOperationFilter
 from app.endpoints.filter.FilterParser import FilterParser
-from app.endpoints.filter.HigherSizeFilter import HigherSizeFilter
-from app.endpoints.filter.LowerSizeFilter import LowerSizeFilter
-from app.endpoints.filter.MatchExtensionFilter import MatchExtensionFilter
-from app.endpoints.filter.OrOperationFilter import OrOperationFilter
+from app.model.filter.HigherSizeFilter import HigherSizeFilter
+from app.model.filter.LowerSizeFilter import LowerSizeFilter
+from app.model.filter.MatchExtensionFilter import MatchExtensionFilter
+from app.model.filter.OrOperationFilter import OrOperationFilter
 from app.service.filter.FilterService import FilterService
 
 
@@ -29,4 +29,4 @@ class FilterEndpoint(Endpoint):
     async def process(self,
                       filter_request: AndOperationFilter | OrOperationFilter | HigherSizeFilter | LowerSizeFilter |
                                       MatchExtensionFilter = Depends(FilterParser)) -> List[str]:
-        return self.filter_service.filter(filter=filter_request, path=self.config.shared_path)
+        return self.filter_service.filter(filter_object=filter_request, path=self.config.shared_path)

@@ -1,12 +1,11 @@
 import json
-from typing import Any
 
-from app.endpoints.filter.AndOperationFilter import AndOperationFilter
+from app.model.filter.AndOperationFilter import AndOperationFilter
 from app.endpoints.filter.FilterParser import parse_filter
-from app.endpoints.filter.HigherSizeFilter import HigherSizeFilter
-from app.endpoints.filter.LowerSizeFilter import LowerSizeFilter
-from app.endpoints.filter.MatchExtensionFilter import MatchExtensionFilter
-from app.endpoints.filter.OrOperationFilter import OrOperationFilter
+from app.model.filter.HigherSizeFilter import HigherSizeFilter
+from app.model.filter.LowerSizeFilter import LowerSizeFilter
+from app.model.filter.MatchExtensionFilter import MatchExtensionFilter
+from app.model.filter.OrOperationFilter import OrOperationFilter
 
 
 def test_filter_parser() -> None:
