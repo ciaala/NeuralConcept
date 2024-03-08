@@ -1,5 +1,7 @@
 import json
 
+import pytest
+
 from app.model.filter.AndOperationFilter import AndOperationFilter
 from app.endpoints.filter.FilterParser import parse_filter
 from app.model.filter.HigherSizeFilter import HigherSizeFilter
@@ -51,13 +53,9 @@ def test_parser_fails_with_not_existent_filter() -> None:
     '''
     json_as_dict = json.loads(json_data)
     # WHEN parsed
-    try:
-        top_level_filter = parse_filter(json_as_dict)
-        assert(top_level_filter is None)
-    except ValueError as err:
-        # THEN
-        # throws an exception
-        assert(str(err) == 'Unknown filter type: NotOperation')
+    with pytest.raises(ValueError) as excinfo:
+        parse_filter(json_as_dict)
+    assert str(excinfo.value) == 'Unknown filter type: NotOperation'
 
 
 def test_parser_fails_with_invalid_json_content() -> None:
@@ -70,10 +68,6 @@ def test_parser_fails_with_invalid_json_content() -> None:
     '''
     json_as_dict = json.loads(json_data)
     # WHEN parsed
-    try:
-        top_level_filter = parse_filter(json_as_dict)
-        assert(top_level_filter is None)
-    except ValueError as err:
-        # THEN
-        # throws an exception
-        assert(str(err) == 'The json content does not match a filter definition')
+    with pytest.raises(ValueError) as excinfo:
+        parse_filter(json_as_dict)
+    assert str(excinfo.value) == 'The json content does not match a filter definition'

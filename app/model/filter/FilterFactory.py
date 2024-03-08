@@ -1,5 +1,5 @@
-from typing import Type, Dict
 from __future__ import annotations
+from typing import Type, Dict
 
 from app.model.filter.Filter import Filter
 from app.model.filter.Filter import CompositeFilter
