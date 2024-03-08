@@ -1,0 +1,80 @@
+import json
+from typing import Any
+
+from app.endpoints.filter.AndOperationFilter import AndOperationFilter
+from app.endpoints.filter.FilterParser import parse_filter
+from app.endpoints.filter.HigherSizeFilter import HigherSizeFilter
+from app.endpoints.filter.LowerSizeFilter import LowerSizeFilter
+from app.endpoints.filter.MatchExtensionFilter import MatchExtensionFilter
+from app.endpoints.filter.OrOperationFilter import OrOperationFilter
+
+
+def test_filter_parser() -> None:
+    # GIVEN
+    # A filter in JSon structure
+    json_data = '''
+    {
+        "type": "OrOperation",
+        "operands": [
+            {"type": "LowerSize", "size": 1024},
+            {"type": "AndOperation", "operands": [
+                {"type": "HigherSize", "size": 512},
+                {"type": "MatchExtension", "extension": "txt"}
+            ]}
+        ]
+    }
+    '''
+    json_as_dict = json.loads(json_data)
+    # WHEN parsed
+    top_level_filter = parse_filter(json_as_dict)
+    # Then it matches the structure
+    assert(isinstance(top_level_filter, OrOperationFilter))
+    assert(isinstance(top_level_filter.operands[0], LowerSizeFilter))
+    assert(top_level_filter.operands[0].size == 1024)
+    assert (isinstance(top_level_filter.operands[1], AndOperationFilter))
+    and_op = top_level_filter.operands[1]
+    assert (isinstance(and_op.operands[0], HigherSizeFilter))
+    assert(and_op.operands[0].size == 512)
+    assert (isinstance(and_op.operands[1], MatchExtensionFilter))
+    assert(and_op.operands[1].extension == 'txt')
+
+
+def test_parser_fails_with_not_existent_filter() -> None:
+    # GIVEN
+    # A filter in JSon structure
+    json_data = '''
+    {
+        "type": "NotOperation",
+        "operands": [
+            {"type": "LowerSize", "size": 1024}
+        ]
+    }
+    '''
+    json_as_dict = json.loads(json_data)
+    # WHEN parsed
+    try:
+        top_level_filter = parse_filter(json_as_dict)
+        assert(top_level_filter is None)
+    except ValueError as err:
+        # THEN
+        # throws an exception
+        assert(str(err) == 'Unknown filter type: NotOperation')
+
+
+def test_parser_fails_with_invalid_json_content() -> None:
+    # GIVEN
+    # A filter in JSon structure
+    json_data = '''
+    {
+        "whatever": "something"
+    }
+    '''
+    json_as_dict = json.loads(json_data)
+    # WHEN parsed
+    try:
+        top_level_filter = parse_filter(json_as_dict)
+        assert(top_level_filter is None)
+    except ValueError as err:
+        # THEN
+        # throws an exception
+        assert(str(err) == 'The json content does not match a filter definition')

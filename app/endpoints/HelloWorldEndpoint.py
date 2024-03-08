@@ -1,11 +1,10 @@
 from fastapi import FastAPI
-from fastapi.openapi.models import Response
 
 from app.endpoints.Endpoint import Endpoint
 
 
 class HelloWorld(Endpoint):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     def register(self, app: FastAPI) -> None:

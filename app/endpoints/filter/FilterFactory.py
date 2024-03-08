@@ -1,7 +1,11 @@
 from typing import Type, Dict
+from __future__ import annotations
 
-FILTER_TYPE_TO_CLASS: Dict[str, Type['Filter']] = {}
-COMPOSITE_FILTER_TYPE_TO_CLASS: Dict[str, Type['CompositeFilter']] = {}
+from app.endpoints.filter.Filter import Filter
+from app.endpoints.filter.Filter import CompositeFilter
+
+FILTER_TYPE_TO_CLASS: Dict[str, Type[Filter]] = {}
+COMPOSITE_FILTER_TYPE_TO_CLASS: Dict[str, Type[CompositeFilter]] = {}
 
 
 def register_filter(cls: Type['Filter']) -> Type['Filter']:

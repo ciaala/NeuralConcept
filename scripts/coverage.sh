@@ -4,7 +4,6 @@
 coverage run --branch --source=app -m pytest
 # generate an html report
 coverage html
-
 OS="$(uname)"
 
 # Open the HTML coverage report with the default browser
