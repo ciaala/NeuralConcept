@@ -1,13 +1,15 @@
-from dataclasses import dataclass
+from typing import List
 
-from app.model.filter.Filter import CompositeFilter
+from pydantic import Field
+
+from app.model.filter.FilterBase import CompositeFilter, FilterBase
 from app.model.filter.FilterFactory import register_composite_filter
 from app.service.filesystem.FileSystemService import FileSystemItem
 
 
 @register_composite_filter
-@dataclass
 class AndOperationFilter(CompositeFilter):
+    type: str = Field("AndOperation", frozen=True)
 
     def apply(self, item: FileSystemItem) -> bool:
         # Check if the item's filename ends with the specified extension

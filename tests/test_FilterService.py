@@ -1,13 +1,14 @@
-import pytest
 from unittest.mock import Mock, create_autospec
 
-from app.service.filesystem.FileSystemService import FileSystemService, FileSystemItem
-from app.model.filter.Filter import Filter
-from app.model.filter.HigherSizeFilter import HigherSizeFilter
-from app.model.filter.LowerSizeFilter import LowerSizeFilter
-from app.model.filter.MatchExtensionFilter import MatchExtensionFilter
+import pytest
+
 from app.model.filter.AndOperationFilter import AndOperationFilter
+from app.model.filter.FilterBase import FilterBase
+from app.model.filter.HigherThanSizeFilter import HigherThanSizeFilter
+from app.model.filter.LowerThanSizeFilter import LowerThanSizeFilter
+from app.model.filter.MatchExtensionFilter import MatchExtensionFilter
 from app.model.filter.OrOperationFilter import OrOperationFilter
+from app.service.filesystem.FileSystemService import FileSystemService, FileSystemItem
 from app.service.filter.FilterService import FilterService
 
 
@@ -20,11 +21,11 @@ def mock_file_system_service():
 @pytest.fixture
 def mock_filter():
     # Mock the Filter object
-    filter_mock = Mock(spec=Filter)
+    filter_mock = Mock(spec=FilterBase)
     return filter_mock
 
 
-def test_filter_service_can_filter(mock_file_system_service, mock_filter):
+def test_filter_service_can_filter(mock_file_system_service, mock_filter) -> None:
     # Setup mock behavior for FileSystemService
     mock_files = [
         FileSystemItem(filename="file1.txt", size=100),
@@ -55,7 +56,7 @@ def test_filter_service_can_filter(mock_file_system_service, mock_filter):
     assert mock_filter.apply.call_count == len(mock_files), "Filter.apply was not called the expected number of times"
 
 
-def test_filter_service_with_real_filter(mock_file_system_service, mock_filter):
+def test_filter_service_with_real_filter(mock_file_system_service, mock_filter) -> None:
     # Setup mock behavior for FileSystemService
     mock_files = [
         FileSystemItem(filename="file1.txt", size=100),
@@ -65,7 +66,7 @@ def test_filter_service_with_real_filter(mock_file_system_service, mock_filter):
     mock_file_system_service.list.return_value = mock_files
 
     # Setup a real filter
-    filter = AndOperationFilter(operands=[HigherSizeFilter(199), MatchExtensionFilter("png")])
+    filter = AndOperationFilter(operands=[HigherThanSizeFilter(size=199), MatchExtensionFilter(extension="png")])
 
     # Instantiate the FilterService with the mocked FileSystemService
     filter_service = FilterService(filesystem_service=mock_file_system_service)
@@ -83,7 +84,7 @@ def test_filter_service_with_real_filter(mock_file_system_service, mock_filter):
     mock_file_system_service.list.assert_called_once_with(path)
 
 
-def test_filter_service_with_complex_filter(mock_file_system_service, mock_filter):
+def test_filter_service_with_complex_filter(mock_file_system_service, mock_filter) -> None:
     # Setup mock behavior for FileSystemService
     mock_files = [
         FileSystemItem(filename="file1.txt", size=100),
@@ -94,8 +95,8 @@ def test_filter_service_with_complex_filter(mock_file_system_service, mock_filte
 
     # Setup a real filter
     filter = OrOperationFilter(
-        operands=[AndOperationFilter(operands=[HigherSizeFilter(199), MatchExtensionFilter("png")]),
-                  LowerSizeFilter(101)])
+        operands=[AndOperationFilter(operands=[HigherThanSizeFilter(size=199), MatchExtensionFilter(extension="png")]),
+                  LowerThanSizeFilter(size=101)])
 
     # Instantiate the FilterService with the mocked FileSystemService
     filter_service = FilterService(filesystem_service=mock_file_system_service)
