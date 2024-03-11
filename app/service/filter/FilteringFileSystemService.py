@@ -1,19 +1,19 @@
 import os
 from typing import List
 
+from app.model.filter.FilterBase import FilterBase
 from app.service.filesystem.FileSystemItem import FileSystemItem
 
 
-
-class FileSystemService:
-
-    def list(self, path: str) -> List[FileSystemItem]:
-        items = []
+class FilteringFileSystemService:
+    def filter(self, filter_object: FilterBase, path: str) -> List[str]:
+        files: List[str] = []
         for entry in os.listdir(path):
             full_path = os.path.join(path, entry)
             if os.path.isfile(full_path):
                 # os.path.getsize gets the size of the file
                 size = os.path.getsize(full_path)
                 item = FileSystemItem(filename=entry, size=size)
-                items.append(item)
-        return items
+                if filter_object.apply(item):
+                    files.append(item.filename)
+        return files

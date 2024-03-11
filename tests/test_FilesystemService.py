@@ -4,8 +4,8 @@ import os
 import pytest
 from unittest.mock import MagicMock
 
-from app.service.filesystem.FileSystemService import FileSystemService, FileSystemItem
-
+from app.service.filesystem.FileSystemService import FileSystemService
+from app.service.filesystem.FileSystemItem import FileSystemItem
 
 
 @dataclass

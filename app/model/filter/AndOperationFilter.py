@@ -4,7 +4,7 @@ from pydantic import Field
 
 from app.model.filter.FilterBase import CompositeFilter, FilterBase
 from app.model.filter.FilterFactory import register_composite_filter
-from app.service.filesystem.FileSystemService import FileSystemItem
+from app.service.filesystem.FileSystemItem import FileSystemItem
 
 
 @register_composite_filter

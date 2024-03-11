@@ -11,14 +11,14 @@ from app.model.filter.HigherThanSizeFilter import HigherThanSizeFilter
 from app.model.filter.LowerThanSizeFilter import LowerThanSizeFilter
 from app.model.filter.MatchExtensionFilter import MatchExtensionFilter
 from app.model.filter.OrOperationFilter import OrOperationFilter
-from app.service.filter.FilterService import FilterService
+from app.service.filter.FilteringFileSystemService import FilteringFileSystemService
 
 Filter = AndOperationFilter | OrOperationFilter | HigherThanSizeFilter | LowerThanSizeFilter | MatchExtensionFilter
 
 
 @inject
 class FilterEndpoint(Endpoint):
-    def __init__(self, filter_service: FilterService, config: Config) -> None:
+    def __init__(self, filter_service: FilteringFileSystemService, config: Config) -> None:
         super().__init__()
         self.config = config
         self.filter_service = filter_service

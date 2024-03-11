@@ -2,7 +2,7 @@ from typing import List
 
 from pydantic import BaseModel
 
-from app.service.filesystem.FileSystemService import FileSystemItem
+from app.service.filesystem.FileSystemItem import FileSystemItem
 
 
 class FilterBase(BaseModel):
