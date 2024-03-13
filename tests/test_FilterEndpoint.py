@@ -30,6 +30,6 @@ def app(mock_filter_service, mock_config):
 @pytest.mark.asyncio
 async def test_filter_endpoint(app):
     async with AsyncClient(app=app, base_url="http://test") as ac:
-        response = await ac.post("/filter", json={"type": "HigherThanSizeFilter", "size": 1024})
+        response = await ac.post("/filter", json={"type": "HigherThanSize", "size": 1024})
     assert response.status_code == 200
     assert response.json() == ["filtered_path1", "filtered_path2"]

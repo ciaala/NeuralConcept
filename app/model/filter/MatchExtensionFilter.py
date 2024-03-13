@@ -1,13 +1,13 @@
+from typing import Literal
+
 from pydantic import Field
 
 from app.model.filter.FilterBase import FilterBase
-from app.model.filter.FilterFactory import register_filter
 from app.service.filesystem.FileSystemItem import FileSystemItem
 
 
-@register_filter
 class MatchExtensionFilter(FilterBase):
-    type: str = Field("MatchFileExtension", frozen=True)
+    type: Literal['MatchExtension'] = Field("MatchExtension", frozen=True)
     extension: str
 
     def apply(self, item: FileSystemItem) -> bool:

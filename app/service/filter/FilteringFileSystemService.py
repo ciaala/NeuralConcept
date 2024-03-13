@@ -1,7 +1,7 @@
 import os
 from typing import List
 
-from app.model.filter.FilterBase import FilterBase
+from app.model.filter.Filter2 import FilterBase
 from app.service.filesystem.FileSystemItem import FileSystemItem
 
 

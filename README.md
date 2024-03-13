@@ -1,8 +1,24 @@
 # Cloud storage service file filtering
 
-## Virtual Environment
+This repository provide a service with REST Endpoint to list and filter files on a storage
+Once deployed the REST API is reachable at http://example.com/filter and it accepts a post request with a JSON body describing the required filter operations.
+The response would be a list of files name matching the request
 
-### Install Miniconda3 
+Example:
+```shell
+
+```
+
+
+
+- [Quick](#quick)
+- [Setup](#setup)
+- [Developmet](#development)
+- [Building Container](#deployment-docker)
+
+## Setup
+
+### Virtual Environment: Install Miniconda3 
 https://docs.anaconda.com/free/miniconda/miniconda-install/
 
 ### Create Virtual Environment
@@ -11,7 +27,7 @@ conda create -n NeuralConcept python=3.11
 conda activate NeuralConcept
 ```
 
-## Dependencies
+### Dependencies
 
 ### Install Dependencies 
 Inside your virtual environment
@@ -41,7 +57,8 @@ You need to run them from the Project main directory, they expect so
 ./scripts/tests.sh
 ./scripts/coverage.sh
 ./scripts/formatter.sh
-
+./scripts/create_shared_example_directory.sh
+./scripts/create_file.sh
 ```
 
 ## Deployment Docker
@@ -72,5 +89,8 @@ docker rmi -f neuralconcept-cfs:latest
 
 ### Run the platform
 
-Open your browser on http://localhost:8000
+Open your browser on http://localhost:8000/docs
+```shell
+
+```
 

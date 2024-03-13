@@ -1,15 +1,20 @@
-from typing import List
+from __future__ import annotations
+
+from typing import Literal, List, Annotated, Union
 
 from pydantic import Field
 
-from app.model.filter.FilterBase import CompositeFilter, FilterBase
-from app.model.filter.FilterFactory import register_composite_filter
+from app.model.filter.FilterBase import FilterBase
+from app.model.filter.HigherThanSizeFilter import HigherThanSizeFilter
+from app.model.filter.LowerThanSizeFilter import LowerThanSizeFilter
+from app.model.filter.MatchExtensionFilter import MatchExtensionFilter
+from app.model.filter.OrOperationFilter import OrOperationFilter
 from app.service.filesystem.FileSystemItem import FileSystemItem
 
 
-@register_composite_filter
-class AndOperationFilter(CompositeFilter):
-    type: str = Field("AndOperation", frozen=True)
+class AndOperationFilter(FilterBase):
+    type: Literal['AndOperation'] = Field("AndOperation", frozen=True)
+    operands: List[Filter]
 
     def apply(self, item: FileSystemItem) -> bool:
         # Check if the item's filename ends with the specified extension
@@ -17,3 +22,10 @@ class AndOperationFilter(CompositeFilter):
             if not operand_filter.apply(item):
                 return False
         return True
+
+
+Filter = Annotated[
+    Union[AndOperationFilter, OrOperationFilter, HigherThanSizeFilter, LowerThanSizeFilter, MatchExtensionFilter],
+    Field(discriminator='type')]
+
+AndOperationFilter.update_forward_refs()

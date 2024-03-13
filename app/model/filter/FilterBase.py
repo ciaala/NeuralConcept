@@ -12,5 +12,4 @@ class FilterBase(BaseModel):
         raise NotImplementedError("Must be implemented by subclass")
 
 
-class CompositeFilter(FilterBase):
-    operands: List[FilterBase]
+
