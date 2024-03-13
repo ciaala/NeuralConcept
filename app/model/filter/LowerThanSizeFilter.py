@@ -1,13 +1,13 @@
+from typing import Literal
+
 from pydantic import Field
 
 from app.model.filter.FilterBase import FilterBase
-from app.model.filter.FilterFactory import register_filter
 from app.service.filesystem.FileSystemItem import FileSystemItem
 
 
-@register_filter
 class LowerThanSizeFilter(FilterBase):
-    type: str = Field("LowerThanSize", frozen=True)
+    type: Literal['LowerThanSize'] = Field("LowerThanSize", frozen=True)
     size: int
 
     def apply(self, item: FileSystemItem) -> bool:

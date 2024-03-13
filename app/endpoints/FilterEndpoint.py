@@ -1,20 +1,12 @@
-from typing import List, Annotated
+from typing import List
 
 from fastapi import FastAPI
-from fastapi.params import Body
 from injector import inject
 
 from app.Config import Config
 from app.endpoints.Endpoint import Endpoint
-from app.model.filter.AndOperationFilter import AndOperationFilter
-from app.model.filter.HigherThanSizeFilter import HigherThanSizeFilter
-from app.model.filter.LowerThanSizeFilter import LowerThanSizeFilter
-from app.model.filter.MatchExtensionFilter import MatchExtensionFilter
-from app.model.filter.OrOperationFilter import OrOperationFilter
+from app.model.filter.Filter2 import Filter
 from app.service.filter.FilteringFileSystemService import FilteringFileSystemService
-
-Filter = AndOperationFilter | OrOperationFilter | HigherThanSizeFilter | LowerThanSizeFilter | MatchExtensionFilter
-
 
 @inject
 class FilterEndpoint(Endpoint):
@@ -26,5 +18,5 @@ class FilterEndpoint(Endpoint):
     def register(self, app: FastAPI) -> None:
         app.post("/filter")(self.filter)
 
-    async def filter(self, filter_request: Annotated[Filter, Body(...)]) -> List[str]:
+    async def filter(self, filter_request: Filter) -> List[str]:
         return self.filter_service.filter(filter_object=filter_request, path=self.config.shared_path)
